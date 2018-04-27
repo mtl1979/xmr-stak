@@ -31,6 +31,7 @@ POOLCONF],
  *    ipbc
  *    karbo
  *    monero7 (use this for Monero's new PoW)
+ *    pinkstar (automatic switch with block version 4 to cryptonight_lite_v7)
  *    sumokoin (automatic switch with block version 3 to cryptonight_heavy)
  *    turtlecoin
  *
