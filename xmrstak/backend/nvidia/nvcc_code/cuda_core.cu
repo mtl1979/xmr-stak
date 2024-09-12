@@ -3,9 +3,15 @@
 #include <bitset>
 #include <cuda.h>
 #include <cuda_runtime.h>
-#include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
+
+#if __CUDACC_VER_MAJOR__ >= 12
+#define float_as_int __float_as_int
+#define int_as_float __int_as_float
+#define int2float    __int2float_rn
+#endif
 
 #include "xmrstak/backend/nvidia/CudaCryptonightR_gen.hpp"
 #include "xmrstak/backend/nvidia/nvcc_code/cuda_cryptonight_gpu.hpp"
@@ -210,7 +216,7 @@ struct u64 : public uint2
 	__forceinline__ __device__ void print(int i) const
 	{
 		if(i < 2)
-			printf("gpu: %lu\n", ((uint64_t*)&this->x)[0]);
+			printf("gpu: %" PRIu64 "\n", ((uint64_t*)&this->x)[0]);
 	}
 };
 

@@ -1,6 +1,6 @@
+cmake_minimum_required(VERSION 3.5.0)
 project(xmr-stak)
 
-cmake_minimum_required(VERSION 3.4.0)
 
 ################################################################################
 # CMake policies
@@ -11,6 +11,10 @@ cmake_minimum_required(VERSION 3.4.0)
 
 if(POLICY CMP0074)
     cmake_policy(SET CMP0074 NEW)
+endif()
+
+if(POLICY CMP0146)
+    cmake_policy(SET CMP0146 OLD)
 endif()
 
 # enforce C++11
@@ -139,10 +143,17 @@ if(CUDA_ENABLE)
             message(STATUS "xmr-stak-nvidia: set max threads per block to ${XMR-STAK_THREADS}")
             add_definitions("-DXMR_STAK_THREADS=${XMR-STAK_THREADS}")
         endif()
-        set(DEFAULT_CUDA_ARCH "30;35;37;50;52")
+        set(DEFAULT_CUDA_ARCH "50;52")
         # Fermi GPUs are only supported with CUDA < 9.0
         if(CUDA_VERSION VERSION_LESS 9.0)
             list(APPEND DEFAULT_CUDA_ARCH "20")
+        endif()
+        if(CUDA_VERSION VERSION_LESS 10.2)
+            list(APPEND DEFAULT_CUDA_ARCH "30")
+        endif()
+        # Kepler GPUs are only supported with CUDA < 12.0
+        if(CUDA_VERSION VERSION_LESS 12.0)
+            list(APPEND DEFAULT_CUDA_ARCH "35" "37")
         endif()
         # add Pascal support for CUDA >= 8.0
         if(NOT CUDA_VERSION VERSION_LESS 8.0)
@@ -159,6 +170,24 @@ if(CUDA_ENABLE)
         # add Turing support for CUDA >= 10.0
         if(NOT CUDA_VERSION VERSION_LESS 10.0)
             list(APPEND DEFAULT_CUDA_ARCH "75")
+        endif()
+        # Add Ampere support for CUDA >= 11.0
+        if(NOT CUDA_VERSION VERSION_LESS 11.0)
+            list(APPEND DEFAULT_CUDA_ARCH "80")
+        endif()
+        if(NOT CUDA_VERSION VERSION_LESS 11.1)
+            list(APPEND DEFAULT_CUDA_ARCH "86")
+        endif()
+        if(NOT CUDA_VERSION VERSION_LESS 11.4)
+            list(APPEND DEFAULT_CUDA_ARCH "87")
+        endif()
+        # add Ada Lovelace support for CUDA >= 11.8
+        if(NOT CUDA_VERSION VERSION_LESS 11.8)
+            list(APPEND DEFAULT_CUDA_ARCH "89")
+        endif()
+        # add Hopper support for CUDA >= 12.0
+        if(NOT CUDA_VERSION VERSION_LESS 12.0)
+            list(APPEND DEFAULT_CUDA_ARCH "90")
         endif()
 
         set(CUDA_ARCH "${DEFAULT_CUDA_ARCH}" CACHE STRING "Set GPU architecture (semicolon separated list, e.g. '-DCUDA_ARCH=20;35;60')")

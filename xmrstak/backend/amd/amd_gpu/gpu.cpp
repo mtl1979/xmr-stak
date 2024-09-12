@@ -143,7 +143,7 @@ size_t InitOpenCLGpu(cl_context opencl_ctx, GpuContext* ctx, const char* source_
 	if(ctx->workSize > MaximumWorkSize)
 	{
 		ctx->workSize = MaximumWorkSize;
-		printer::inst()->print_msg(L1, "Device %lu work size to large, reduce to %lu / %lu.", ctx->deviceIdx, ctx->workSize, MaximumWorkSize);
+		printer::inst()->print_msg(L1, "Device %lu work size too large, reduce to %lu / %lu.", ctx->deviceIdx, ctx->workSize, MaximumWorkSize);
 	}
 
 	const std::string backendName = xmrstak::params::inst().openCLVendor;

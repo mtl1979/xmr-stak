@@ -812,7 +812,7 @@ extern "C" int cuda_get_deviceinfo(nvid_ctx* ctx)
 	{
 		// by default cryptonight CUDA implementations uses 8 threads per thread for some kernel
 		ctx->device_threads = ctx->device_maxThreadsPerBlock / threadsPerHash;
-		printf("WARNING: 'threads' configuration to large, value adjusted to %i\n", ctx->device_threads);
+		printf("WARNING: 'threads' configuration too large, value adjusted to %i\n", ctx->device_threads);
 	}
 	printf("device init succeeded\n");
 

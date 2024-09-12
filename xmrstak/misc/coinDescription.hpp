@@ -78,7 +78,7 @@ struct coin_selection
 			GetDescription(1).GetMiningAlgoRoot()};
 
 		std::sort(allAlgos.begin(), allAlgos.end());
-		std::remove(allAlgos.begin(), allAlgos.end(), invalid_algo);
+		(void)std::remove(allAlgos.begin(), allAlgos.end(), invalid_algo);
 		auto last = std::unique(allAlgos.begin(), allAlgos.end());
 		// remove duplicated algorithms
 		allAlgos.erase(last, allAlgos.end());
